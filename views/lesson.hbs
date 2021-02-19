@@ -1,0 +1,113 @@
+<style>
+    .video-content {
+        margin: 0 auto;
+        height: 30rem;
+        background: black;
+        display: flex;
+        align-items: center;
+        align-content: center;
+        position: relative;
+    }
+
+    .spinner-container {
+        width: 100%;
+        position: absolute;
+    }
+
+    .accordion-button {
+        text-align: left;
+    }
+
+    .accordion-item.loading .accordion-header .accordion-button,
+    .accordion-item.loading .accordion-body ul {
+        color: transparent !important;
+        background: linear-gradient(100deg, #eceff1 30%, #f6f7f8 50%, #eceff1 70%);
+        background-size: 400% !important;
+        border: none;
+        animation: loading 1.2s ease-in-out infinite;
+        pointer-events: none;
+    }
+
+    .accordion-item.loading .accordion-header .accordion-button::after {
+        display: none;
+    }
+
+    .accordion-item.loading .accordion-collapse {
+        border: none;
+    }
+
+    .accordion-body ul {
+        padding-left: 0;
+    }
+
+    .accordion-body ul li {
+        list-style: none;
+    }
+
+    .accordion-body ul li img {
+        fill: currentColor;
+        display: inline-block;
+        flex-shrink: 0;
+        width: 1rem;
+        height: 1rem;
+    }
+
+    .accordion-body ul li span {
+        cursor: pointer;
+        color: #545454;
+        transition: 0.3s;
+        font-size: 14px;
+        font-family: "Poppins", sans-serif;
+    }
+
+    .accordion-body ul li span:hover, .accordion-body ul li span.active {
+        color: #e96b56;
+    }
+
+    .accordion-button:not(.collapsed) {
+        background-color: inherit;
+    }
+
+    .accordion-button:focus {
+        border-color: rgba(0, 0, 0, .125);
+        outline: none;
+        box-shadow: none;
+    }
+</style>
+
+{{> header}}
+
+<section>
+    <div class="row">
+        <div class="col-lg-8 video-content">
+                <iframe
+                        allowFullScreen
+                        width="100%"
+                        height="100%"
+                        src="{{video}}" title="{{nodeId}}">
+                </iframe>
+            <div class="spinner-container">
+                {{> spiner}}
+            </div>
+        </div>
+    </div>
+</section>
+<section>
+    <div class="row">
+        <div class="col-lg-8 m-auto">
+            <div class="container">
+                <h2>Content</h2>
+                <div class="accordion" id="accordionCourse">
+
+                    {{#each course.children as |c|}}
+                        {{> accordion parameter=c}}
+                    {{/each}}
+
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+{{> go-top}}
+{{> footer}}
+<script src="/js/lesson.bundle.js"></script>
