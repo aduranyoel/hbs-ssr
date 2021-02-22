@@ -61,7 +61,7 @@
     }
 
     .accordion-body ul li span:hover, .accordion-body ul li span.active {
-        color: #e96b56;
+        color: #dc3545;
     }
 
     .accordion-button:not(.collapsed) {
@@ -73,6 +73,36 @@
         outline: none;
         box-shadow: none;
     }
+
+    .video-content .actions.loading {
+        display: none;
+    }
+
+    .video-content .actions {
+        position: absolute;
+        z-index: 21474836939999;
+        bottom: 3rem;
+        right: 3rem;
+    }
+
+    .video-content .actions button {
+        align-items: center;
+        justify-content: center;
+        font-size: 24px;
+        width: 40px;
+        height: 40px;
+        color: #fff;
+        transition: all 0.4s;
+        border: none;
+        background: rgba(233, 107, 86, .2);
+        opacity: .7;
+    }
+
+    .video-content .actions button:hover {
+        background: #dc3545;
+        /*background: #e96b56;*/
+        opacity: 1;
+    }
 </style>
 
 {{> header}}
@@ -80,12 +110,17 @@
 <section>
     <div class="row">
         <div class="col-lg-8 video-content">
-                <iframe
-                        allowFullScreen
-                        width="100%"
-                        height="100%"
-                        src="{{video}}" title="{{nodeId}}">
-                </iframe>
+            <div class="actions loading">
+                <button id="actionPrevious">&lt;</button>
+                <button id="actionNext">&gt;</button>
+            </div>
+            <iframe
+                    allowFullScreen
+                    width="100%"
+                    height="100%"
+                    title="lesson"
+            >
+            </iframe>
             <div class="spinner-container">
                 {{> spiner}}
             </div>
@@ -99,7 +134,7 @@
                 <h2>Content</h2>
                 <div class="accordion" id="accordionCourse">
 
-                    {{#each course.children as |c|}}
+                    {{#each course.sections as |c|}}
                         {{> accordion parameter=c}}
                     {{/each}}
 

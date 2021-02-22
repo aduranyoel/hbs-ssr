@@ -15,7 +15,6 @@ const accounts = [
         recovery: 'POFbAtEd3QRikCUNPF_vjQ'
     }
 ];
-let interval;
 
 function getAllCourses() {
     return new Promise(resolve => {
@@ -56,37 +55,17 @@ function getAllCourses() {
 }
 
 function getCoursesFromAccount(id) {
-    return new Promise(resolve => {
-        let cache = {};
-        let readyCourses = 0, totalCourses = 0;
+    return new Promise((resolve, reject) => {
         const {accountId, ...login} = accounts[id - 1];
         new mega.Storage(login, (err, res) => {
+            if (err) return reject(err);
             const courses = res.root.children.find(n => n.name === 'courses');
             if (courses) {
-                totalCourses += courses.children.length || 0;
-                cache[accountId] = courses;
-                courses.children.forEach((course, index) => {
-                    const data = course.children.find(c => c.name === 'data.json');
-                    if (data) {
-                        data.download((err, res) => {
-                            if (!err && res) cache[accountId]['children'][index]['courseInfo'] = JSON.parse(res.toString());
-                            ++readyCourses;
-                            checkFinally();
-                        });
-                    } else {
-                        ++readyCourses;
-                        checkFinally();
-                    }
-                });
+                resolve(courses);
+            } else {
+                reject(new Error("No courses found"));
             }
-            checkFinally();
         });
-
-        function checkFinally() {
-            if (readyCourses === totalCourses) {
-                resolve(cache);
-            }
-        }
     })
 }
 
@@ -102,8 +81,8 @@ function getCoursesFromCache() {
     return new Promise(resolve => {
         getAllCourses().then(courses => {
 
-            resolve(Object.entries(courses).reduce((acc, o) => {
-                const [id, course] = o;
+            resolve(Object.entries(courses).reduce((acc, entries) => {
+                const [id, course] = entries;
                 acc = [
                     ...acc,
                     ...course.children.map(c => {
@@ -137,35 +116,8 @@ function getEmbed(url) {
     return url.replace('file', 'embed');
 }
 
-function initSyncCourses() {
-    getAllCourses();
-    interval = setInterval(getAllCourses, 24 * 60 * 60 * 1000)
-}
-
-function getCourse(accountId, idCourse) {
-    return new Promise(resolve => {
-        let courseFounded = null, response = null;
-        getCoursesFromAccount(accountId).then(courses => {
-            for (let [account, course] of Object.entries(courses)) {
-                const exist = course.children.find(c => c.nodeId === idCourse);
-                if (exist) {
-                    courseFounded = exist;
-                    break;
-                }
-            }
-
-            if (courseFounded) {
-                response = getNodes(courseFounded);
-            }
-
-            resolve(response);
-        })
-    })
-}
-
 module.exports = {
     getCoursesFromCache,
-    getCourse,
     getCoursesFromAccount,
     find,
     getEmbed

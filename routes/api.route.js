@@ -1,49 +1,83 @@
 const express = require('express');
+const {saveCourses} = require("../services/courses.service");
 const router = express.Router();
 const {find, getEmbed} = require('../shared/mega');
 const {getCoursesFromAccount} = require("../shared/mega");
+const {getAllCourses, findOneCourse, findOneLesson} = require("../services/courses.service");
 
-const {getCoursesFromCache, getCourse} = require('../shared/mega');
-
-router.get('/courses', (req, res) => {
-    getCoursesFromCache().then(response => {
+router.get('/courses', async (req, res) => {
+    try {
         res.json({
-            response,
+            response: await getAllCourses(),
             error: null
         })
-    })
+    } catch (error) {
+        res.status(400).json({
+            response: null,
+            error: error.message
+        })
+    }
 });
 
-router.get('/courses/:accountId/:courseId', (req, res) => {
-    const {accountId, courseId} = req.params;
-    getCourse(accountId, courseId).then(response => {
+router.get('/courses/reload', async (req, res) => {
+    try {
         res.json({
-            response,
+            response: await saveCourses(),
             error: null
         })
-    })
+    } catch (error) {
+        res.status(400).json({
+            response: null,
+            error: error.message
+        })
+    }
 });
 
-router.get('/embed', (req, res) => {
-    const {path} = req.query;
-    if (path) {
-        const account = path.split('/')[0], url = path.split('/').slice(1).join('/');
-        getCoursesFromAccount(account).then(course => {
-            const wanted = find(url, course[account]);
-            if (wanted) {
-                wanted.link((error, link) => {
-                    if (error) return responseError(error);
-                    res.json({
-                        response: getEmbed(link),
-                        error: null
+router.get('/courses/:courseId', async (req, res) => {
+    try {
+        res.json({
+            response: await findOneCourse(req.params.courseId),
+            error: null
+        })
+    } catch (error) {
+        res.status(400).json({
+            response: null,
+            error: error.message
+        })
+    }
+});
+
+/**
+ * api/embed?accountId=?&courseId=?&sectionId=?&lessonId=?
+ */
+router.get('/embed', async (req, res) => {
+    try {
+        const {accountId, courseId, sectionId, lessonId} = req.query;
+        const lesson = await findOneLesson(accountId, courseId, sectionId, lessonId);
+        if (lesson) {
+            const url = `${lesson.course.nodeId}/${lesson.section.nodeId}/${lesson.nodeId}`;
+            getCoursesFromAccount(accountId).then(courses => {
+                const wanted = find(url, courses);
+                if (wanted) {
+                    wanted.link(async (error, link) => {
+                        if (error) return responseError(error);
+                        const embed = getEmbed(link);
+                        await lesson.update({link: embed});
+                        res.json({
+                            response: embed,
+                            error: null
+                        })
                     })
-                })
-            } else {
-                responseError('File not found.')
-            }
-        });
-    } else {
-        responseError('No path found.')
+                } else {
+                    responseError('File not found.')
+                }
+            });
+        } else {
+            responseError('No lesson found.')
+        }
+
+    } catch (e) {
+        responseError(e.message);
     }
 
     function responseError(message) {

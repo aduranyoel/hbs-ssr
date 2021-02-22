@@ -2,13 +2,19 @@ import {setCourses} from "./utils";
 import {Paginator} from "./components/paginator.component";
 
 const searchForm = document.getElementById('searchForm');
+const searchInput = document.getElementById('search');
 
 window.onload = async () => {
 
     searchForm.addEventListener('submit', function (e) {
         e.preventDefault();
-        const value = e.target[0].value.trim().toLowerCase();
+        const value = searchInput.value.trim().toLowerCase();
         setCourses(window.courses.filter(c => c.name.toLowerCase().indexOf(value) > -1), {page: 1});
+    });
+
+    searchInput.addEventListener('change', function (e) {
+        e.preventDefault();
+        if (!this.value) setCourses(window.courses, {page: 1});
     });
 
     try {

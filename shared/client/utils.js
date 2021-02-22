@@ -1,5 +1,5 @@
 import {CourseCard} from "./components/course-card.component";
-import Node from "../model/node";
+import Node from "../../model/node";
 
 export function sortNodesByName(a, b) {
     const
@@ -77,6 +77,9 @@ export const setCourses = (function () {
         row.classList.add('row');
         for (let child of paginated) {
             row.appendChild(CourseCard(new Node(child)));
+        }
+        if (paginated && !paginated.length) {
+            row.innerHTML = `<img class="empty" src="/img/undraw_empty_xct9.svg" alt="empty" width="16rem"/>`;
         }
         cards.replaceWith(row);
         cards = row;

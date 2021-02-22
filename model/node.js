@@ -1,11 +1,24 @@
 class Node {
-    constructor({name, nodeId, type, children, accountId, courseInfo}) {
-        this.name = name;
-        this.nodeId = nodeId;
-        this.type = type;
-        this.children = children;
-        this.accountId = accountId;
-        this.courseInfo = courseInfo;
+    constructor(
+        attr = {
+            name: null,
+            nodeId: null,
+            type: null,
+            children: null,
+            accountId: null,
+            courseInfo: null,
+            picture: null,
+            description: null,
+            courseId: null,
+            sectionId: null,
+            lessonId: null,
+            sections: null,
+            lessons: null,
+            link: null
+        }) {
+        for (let attrKey in attr) {
+            this[attrKey] = attr[attrKey];
+        }
     }
 }
 
