@@ -5,11 +5,11 @@ const Lesson = require('../model/lesson');
 const {getCoursesFromCache} = require("../shared/mega");
 const Node = require('../model/node');
 
-function findOneCourse(courseId) {
+function findOneCourse(url) {
     return new Promise(async (resolve, reject) => {
         try {
             const result = await Course.findOne({
-                where: {courseId},
+                where: {url},
                 include: {
                     model: Section,
                     include: {
@@ -33,6 +33,13 @@ function getAllCourses() {
             reject(e);
         }
     });
+}
+
+function createCourseUrl(name) {
+    return name.trim().toLowerCase()
+        .replace(/[^a-z0-9]/g, '-')
+        .replace(/-{2,}/g, '-')
+        .replace(/^-|-$/, '');
 }
 
 function saveCourses() {
@@ -72,6 +79,7 @@ function saveCourses() {
                     ...course,
                     picture: course.courseInfo.picture,
                     description: course.courseInfo.description,
+                    url: createCourseUrl(course.name)
                 }, {transaction});
                 await createSection(course, courseInDb, transaction);
             }

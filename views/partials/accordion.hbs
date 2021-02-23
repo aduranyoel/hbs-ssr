@@ -2,14 +2,14 @@
     <h2 class="accordion-header" >
         <button class="accordion-button {{#if @index}}collapsed{{/if}}" type="button"
                 data-bs-toggle="collapse"
-                data-bs-target="#collapse{{@index}}" aria-expanded="{{@index}}"
+                data-bs-target="#collapse{{@index}}" aria-expanded="{{isZero @index}}"
                 aria-controls="collapse{{@index}}">
             {{name}}
         </button>
     </h2>
     <div id="collapse{{@index}}"
          class="accordion-collapse collapse {{#unless @index}}show{{/unless}}"
-         aria-labelledby="heading{{@index}}"
+
          data-bs-parent="#accordionCourse"
          data-sectionId="{{sectionId}}"
     >
@@ -18,7 +18,7 @@
                 {{#each lessons as |l|}}
                     <li>
                         <div>
-                            {{#unless loading}}<img src="/img/play-circle-solid.svg" alt="play"/>{{/unless}}
+                            {{#unless loading}}<img width="1rem" height="1rem" src="/img/play-circle-solid.svg" alt="play"/>{{/unless}}
                             <span
                                     data-accountId="{{l.accountId}}"
                                     data-courseId="{{l.courseId}}"

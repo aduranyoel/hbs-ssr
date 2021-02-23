@@ -32,6 +32,9 @@ const Course = sequelize.define('courses', {
     name: {
         type: DataTypes.TEXT
     },
+    url: {
+        type: DataTypes.TEXT
+    },
 }, {
     timestamps: false
 });

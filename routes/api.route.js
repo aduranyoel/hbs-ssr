@@ -33,10 +33,10 @@ router.get('/courses/reload', async (req, res) => {
     }
 });
 
-router.get('/courses/:courseId', async (req, res) => {
+router.get('/courses/:courseUrl', async (req, res) => {
     try {
         res.json({
-            response: await findOneCourse(req.params.courseId),
+            response: await findOneCourse(req.params.courseUrl),
             error: null
         })
     } catch (error) {

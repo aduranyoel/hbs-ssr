@@ -1,8 +1,8 @@
-export function CourseCard({name, nodeId, picture, description, courseId}) {
+export function CourseCard({name, nodeId, picture, description, url}) {
 
     const openCourse = async() => {
         if (!nodeId) return null;
-        window.location.href = `/course/${courseId}`;
+        window.location.href = `/course/${url}`;
     };
 
     const template = `

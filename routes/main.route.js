@@ -32,10 +32,10 @@ router.get('/', (req, res) => {
     });
 });
 
-router.get('/course/:courseId', async (req, res) => {
-    const {courseId} = req.params;
+router.get('/course/:courseUrl', async (req, res) => {
+    const {courseUrl} = req.params;
     try {
-        const course = await findOneCourse(courseId);
+        const course = await findOneCourse(courseUrl);
         if (course) {
             res.render("course", {
                 ...req.extra,
@@ -43,7 +43,7 @@ router.get('/course/:courseId', async (req, res) => {
                 subtitle: course.name,
                 siteTitle: `${course.name} | Mega Courses`,
                 siteDescription: course.description,
-                siteImage: `${req.protocol}://${req.headers.host}/course/image/${courseId}`,
+                siteImage: `${req.protocol}://${req.headers.host}/course/image/${courseUrl}`,
                 course: parseCourse(course)
             });
         } else {
@@ -58,9 +58,9 @@ router.get('/course/:courseId', async (req, res) => {
     }
 });
 
-router.get('/course/image/:courseId', async (req, res) => {
-    const {courseId} = req.params;
-    const course = await Course.findOne({where: {courseId}});
+router.get('/course/image/:courseUrl', async (req, res) => {
+    const {courseUrl} = req.params;
+    const course = await Course.findOne({where: {url: courseUrl}});
     if (course) {
         const img = Buffer.from(course.picture, 'base64');
         res.writeHead(200, {

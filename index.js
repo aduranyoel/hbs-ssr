@@ -4,6 +4,7 @@ const
     expressHandlebars = require("express-handlebars"),
     path = require("path"),
     helpers = require('./shared/helpers'),
+    handlebars = require('./shared/hbs'),
     app = express(),
     sequelize = require('./db/connection'),
     {initSyncCourses} = require("./services/courses.service");
@@ -16,7 +17,9 @@ app.set("port", process.env.PORT || 3000);
 /**
  * Handlebars
  */
+
 const hbs = expressHandlebars.create({
+    handlebars,
     extname: ".hbs",
     cache: true,
     helpers

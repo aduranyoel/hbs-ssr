@@ -57,6 +57,7 @@ function setCurrentLesson(url) {
     element.width = '100%';
     element.height = '100%';
     element.allowFullscreen = true;
+    element.title = 'lesson';
     element.addEventListener('load', () => switchLoader(false));
     iframe.replaceWith(element);
     iframe = element;
