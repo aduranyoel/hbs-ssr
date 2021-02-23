@@ -19,7 +19,7 @@ router.get('/', (req, res) => {
         title: 'Mega Courses',
         siteTitle: "Online courses - anytime, anywhere | Mega Courses",
         siteDescription: "Free courses, be part of a community that learns and shares their knowledge",
-        siteImage: 'https://www.megacourses.top/img/logo.png',
+        siteImage: 'https://www.megacourses.top/img/thumbnail.png',
         courses: Array(4).fill({
             name: 'loading',
             nodeId: '',
