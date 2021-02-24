@@ -70,6 +70,7 @@ function setActive() {
         sectionId: this.getAttribute('data-sectionId'),
         lessonId: this.getAttribute('data-lessonId'),
         link: this.getAttribute('data-link'),
+        idx: this.getAttribute('data-idx'),
     };
     const lessonsItems = [].slice.call(document.querySelectorAll('.accordion-body ul li span[data-lessonId]'));
     for (let lessonsItem of lessonsItems) {
@@ -79,6 +80,7 @@ function setActive() {
     localStorage.setItem('active', JSON.stringify(data));
     switchLoader(true);
     window.scrollTo(0, 0);
+    openSectionAccordion(data.sectionId);
     if (data.link) {
         setCurrentLesson(data.link);
     } else {
@@ -93,20 +95,24 @@ function setActive() {
 }
 
 function initFirstLesson() {
-    setActive.call(document.querySelector('.accordion-body ul li span[data-lessonId]'));
+    setActive.call(document.querySelector('.accordion-body ul li span[data-idx]'));
 }
 
 function handleActionNext() {
     const active = JSON.parse(localStorage.getItem('active'));
-    const next = document.querySelector(`.accordion-body ul li span[data-lessonId="${active.lessonId}"]`)
-        ?.parentNode?.parentNode?.nextElementSibling?.querySelector('span');
+    const next = document.querySelector(`.accordion-body ul li span[data-idx="${+active.idx + 1}"]`);
     if (next) setActive.call(next);
 }
 
 function handleActionPrevious() {
     const active = JSON.parse(localStorage.getItem('active'));
-    const previous = document.querySelector(`.accordion-body ul li span[data-lessonId="${active.lessonId}"]`)
-        ?.parentNode?.parentNode?.previousElementSibling?.querySelector('span');
+    const previous = document.querySelector(`.accordion-body ul li span[data-idx="${+active.idx - 1}"]`);
     if (previous) setActive.call(previous);
 }
 
+function openSectionAccordion(sectionId) {
+    const isShow = [].slice.call(document.querySelectorAll(`.collapse.show[data-sectionId="${sectionId}"]`)).length > 0;
+    if (!isShow)
+        [].slice.call(document.querySelectorAll(`.collapse[data-sectionId="${sectionId}"]`))
+            .map(collapseEl => new bootstrap.Collapse(collapseEl, {parent: accordionCourse}));
+}

@@ -15,7 +15,8 @@ class Node {
             sections: null,
             lessons: null,
             link: null,
-            url: null
+            url: null,
+            idx: null
         }) {
         for (let attrKey in attr) {
             this[attrKey] = attr[attrKey];

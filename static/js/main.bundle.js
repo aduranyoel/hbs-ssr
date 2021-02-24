@@ -1,1 +1,140 @@
-(()=>{var e={117:e=>{e.exports=class{constructor(e={name:null,nodeId:null,type:null,children:null,accountId:null,courseInfo:null,picture:null,description:null,courseId:null,sectionId:null,lessonId:null,sections:null,lessons:null,link:null,url:null}){for(let t in e)this[t]=e[t]}}}},t={};function n(l){if(t[l])return t[l].exports;var a=t[l]={exports:{}};return e[l](a,a.exports,n),a.exports}n.n=e=>{var t=e&&e.__esModule?()=>e.default:()=>e;return n.d(t,{a:t}),t},n.d=(e,t)=>{for(var l in t)n.o(t,l)&&!n.o(e,l)&&Object.defineProperty(e,l,{enumerable:!0,get:t[l]})},n.o=(e,t)=>Object.prototype.hasOwnProperty.call(e,t),(()=>{"use strict";function e({name:e,nodeId:t,picture:n,description:l,url:a}){const s=`\n    <div class="my-card">\n    <div class="my-card-header">\n    ${n?`<img src="data:image/jpg;base64, ${n}" alt=${e}/>`:`<img src="/img/camera-solid.svg" alt=${e}/>`}\n    </div>\n    <div class="my-card-body">\n        <div class="title">${e}</div>\n    <div class="subtitle">${l}</div>\n    </div>\n    </div>\n`,o=document.createElement("div");return o.setAttribute("class","col-xl-3 col-lg-4 col-md-6 d-flex align-items-stretch"),o.onclick=async()=>{if(!t)return null;window.location.href=`/course/${a}`},o.innerHTML=s,o}var t=n(117),l=n.n(t);function a(e,t){const n=[];for(let l=e;l<=t;l++)n.push(l);return n}const s=function(){let t=document.getElementById("cards"),n=[];function a(a,{page:s,length:o=8}){const c=function(e,{page:t,length:n=8}){const l=(t-1)*n;return e.slice().slice(l,l+n)}(a,{page:s,length:o}),i=document.createElement("div");i.classList.add("row");for(let t of c)i.appendChild(e(new(l())(t)));c&&!c.length&&(i.innerHTML='<img class="empty" src="/img/undraw_empty_xct9.svg" alt="empty" width="16rem"/>'),t.replaceWith(i),t=i,function(e,{page:t,length:l}){for(let a of n)a.call(this,e,{page:t,length:l})}(a,{page:s,length:o})}return a.subscribe=e=>{n.push(e)},a}();const o=document.getElementById("searchForm"),c=document.getElementById("search");window.onload=async()=>{o.addEventListener("submit",(function(e){e.preventDefault();const t=c.value.trim().toLowerCase();s(window.courses.filter((e=>e.name.toLowerCase().indexOf(t)>-1)),{page:1})})),c.addEventListener("change",(function(e){e.preventDefault(),this.value||s(window.courses,{page:1})}));try{const e=await fetch("/api/courses"),{response:t}=await e.json();window.courses=t,s(t,{page:1}),document.getElementById("paginator").replaceWith(function(e){const t=document.createElement("div");t.classList.add("blog");let{courses:n,pages:l,active:o}=c(e);function c(e,{page:t=1,length:n=8}={}){return{active:t,courses:e,pages:a(1,Math.ceil(e.length/n))}}s.subscribe((function(e,{page:a}){const s=c(e,{page:a});n=s.courses,l=s.pages,o=s.active,t.innerHTML=i()})),function(e=document,t,n,l){var a,s,o;a=Event.prototype,s=document,o=window,a.composedPath||(a.composedPath=function(){if(this.path)return this.path;var e=this.target;for(this.path=[];null!==e.parentNode;)this.path.push(e),e=e.parentNode;return this.path.push(s,o),this.path}),e.addEventListener(t,(function(e){let t=document.querySelectorAll(n),a=e.composedPath();for(let n=0,s=a.length;n<s;n++)for(let s=0,o=t.length;s<o;s++)a[n]===t[s]&&l.call(t[s],e)}),!0)}(t,"click","a[data-go]",(function(e){e.preventDefault();let t=+this.getAttribute("data-go");t!==o&&(window.scrollTo(0,0),o=t,s(n,{page:t}))}));const i=()=>`\n        <div class="blog-pagination" style="display: ${l.length<2?"none":"block"}">\n            <ul class="justify-content-center">\n                <li class="${1===o?"disabled":""}">\n                    <a data-go="${o-1}" href="/" class="navigate"><</a>\n                </li>\n\n                    ${l.map(((e,t)=>`\n                        <li class=${t+1===o?"active":""}>\n                            <a data-go="${e}" href="/">${e}</a>\n                        </li>\n                    `)).join("")}\n\n                <li class="${o===l.length?"disabled":""}">\n                    <a data-go="${o+1}" href="/" class="navigate">></a>\n                </li>\n            </ul>\n        </div>\n    `;return t.innerHTML=i(),t}(t))}catch(e){console.error(e)}}})()})();
+/*
+ * ATTENTION: The "eval" devtool has been used (maybe by default in mode: "development").
+ * This devtool is neither made for production nor for readable output files.
+ * It uses "eval()" calls to create a separate source file in the browser devtools.
+ * If you are trying to read the output file, select a different devtool (https://webpack.js.org/configuration/devtool/)
+ * or disable the default devtool with "devtool: false".
+ * If you are looking for production-ready output files, see mode: "production" (https://webpack.js.org/configuration/mode/).
+ */
+/******/ (() => { // webpackBootstrap
+/******/ 	var __webpack_modules__ = ({
+
+/***/ "./model/node.js":
+/*!***********************!*\
+  !*** ./model/node.js ***!
+  \***********************/
+/***/ ((module) => {
+
+eval("class Node {\r\n    constructor(\r\n        attr = {\r\n            name: null,\r\n            nodeId: null,\r\n            type: null,\r\n            children: null,\r\n            accountId: null,\r\n            courseInfo: null,\r\n            picture: null,\r\n            description: null,\r\n            courseId: null,\r\n            sectionId: null,\r\n            lessonId: null,\r\n            sections: null,\r\n            lessons: null,\r\n            link: null,\r\n            url: null,\r\n            idx: null\r\n        }) {\r\n        for (let attrKey in attr) {\r\n            this[attrKey] = attr[attrKey];\r\n        }\r\n    }\r\n}\r\n\r\nmodule.exports = Node;\r\n\n\n//# sourceURL=webpack://site/./model/node.js?");
+
+/***/ }),
+
+/***/ "./shared/client/components/course-card.component.js":
+/*!***********************************************************!*\
+  !*** ./shared/client/components/course-card.component.js ***!
+  \***********************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+eval("__webpack_require__.r(__webpack_exports__);\n/* harmony export */ __webpack_require__.d(__webpack_exports__, {\n/* harmony export */   \"CourseCard\": () => (/* binding */ CourseCard)\n/* harmony export */ });\nfunction CourseCard({name, nodeId, picture, description, url}) {\r\n\r\n    const openCourse = async() => {\r\n        if (!nodeId) return null;\r\n        window.location.href = `/course/${url}`;\r\n    };\r\n\r\n    const template = `\r\n    <div class=\"my-card\">\r\n    <div class=\"my-card-header\">\r\n    ${\r\n        picture\r\n            ? `<img src=\"data:image/jpg;base64, ${picture}\" alt=${name}/>`\r\n            : `<img src=\"/img/camera-solid.svg\" alt=${name}/>`\r\n    }\r\n    </div>\r\n    <div class=\"my-card-body\">\r\n        <div class=\"title\">${name}</div>\r\n    <div class=\"subtitle\">${description}</div>\r\n    </div>\r\n    </div>\r\n`;\r\n    const element = document.createElement('div');\r\n    element.setAttribute('class', 'col-xl-3 col-lg-4 col-md-6 d-flex align-items-stretch');\r\n    element.onclick = openCourse;\r\n    element.innerHTML = template;\r\n    return element;\r\n}\r\n\n\n//# sourceURL=webpack://site/./shared/client/components/course-card.component.js?");
+
+/***/ }),
+
+/***/ "./shared/client/components/paginator.component.js":
+/*!*********************************************************!*\
+  !*** ./shared/client/components/paginator.component.js ***!
+  \*********************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+eval("__webpack_require__.r(__webpack_exports__);\n/* harmony export */ __webpack_require__.d(__webpack_exports__, {\n/* harmony export */   \"Paginator\": () => (/* binding */ Paginator)\n/* harmony export */ });\n/* harmony import */ var _utils__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../utils */ \"./shared/client/utils.js\");\n\r\n\r\nfunction Paginator(data) {\r\n    const element = document.createElement('div');\r\n    element.classList.add('blog');\r\n\r\n    const PAGE_LENGTH = 8;\r\n    let {courses, pages, active} = getState(data);\r\n\r\n    function getState(courses, {page = 1, length = PAGE_LENGTH} = {}) {\r\n        return {\r\n            active: page,\r\n            courses,\r\n            pages: (0,_utils__WEBPACK_IMPORTED_MODULE_0__.range)(1, Math.ceil(courses.length / length))\r\n        }\r\n    }\r\n\r\n    function render(data, {page}) {\r\n        const state = getState(data, {page});\r\n        courses = state.courses;\r\n        pages = state.pages;\r\n        active = state.active;\r\n        element.innerHTML = template();\r\n    }\r\n\r\n    function navigate(e) {\r\n        e.preventDefault();\r\n        let page = +this.getAttribute('data-go');\r\n        if (page === active) return;\r\n        window.scrollTo(0, 0);\r\n        active = page;\r\n        (0,_utils__WEBPACK_IMPORTED_MODULE_0__.setCourses)(courses, {page});\r\n    }\r\n\r\n    _utils__WEBPACK_IMPORTED_MODULE_0__.setCourses.subscribe(render);\r\n    (0,_utils__WEBPACK_IMPORTED_MODULE_0__.On)(element, 'click', 'a[data-go]', navigate);\r\n\r\n    const template = () => `\r\n        <div class=\"blog-pagination\" style=\"display: ${pages.length < 2 ? 'none' : 'block'}\">\r\n            <ul class=\"justify-content-center\">\r\n                <li class=\"${active === 1 ? \"disabled\" : ''}\">\r\n                    <a data-go=\"${active - 1}\" href=\"/\" class=\"navigate\">${'<'}</a>\r\n                </li>\r\n\r\n                    ${\r\n        pages.map((page, idx) => {\r\n            const isActive = idx + 1 === active;\r\n            return `\r\n                        <li class=${isActive ? \"active\" : \"\"}>\r\n                            <a data-go=\"${page}\" href=\"/\">${page}</a>\r\n                        </li>\r\n                    `\r\n        }).join('')\r\n    }\r\n\r\n                <li class=\"${active === pages.length ? \"disabled\" : ''}\">\r\n                    <a data-go=\"${active + 1}\" href=\"/\" class=\"navigate\">${'>'}</a>\r\n                </li>\r\n            </ul>\r\n        </div>\r\n    `;\r\n\r\n    element.innerHTML = template();\r\n    return element;\r\n}\r\n\n\n//# sourceURL=webpack://site/./shared/client/components/paginator.component.js?");
+
+/***/ }),
+
+/***/ "./shared/client/main-section.js":
+/*!***************************************!*\
+  !*** ./shared/client/main-section.js ***!
+  \***************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+eval("__webpack_require__.r(__webpack_exports__);\n/* harmony import */ var _utils__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./utils */ \"./shared/client/utils.js\");\n/* harmony import */ var _components_paginator_component__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./components/paginator.component */ \"./shared/client/components/paginator.component.js\");\n\r\n\r\n\r\nconst searchForm = document.getElementById('searchForm');\r\nconst searchInput = document.getElementById('search');\r\n\r\nwindow.onload = async () => {\r\n\r\n    searchForm.addEventListener('submit', function (e) {\r\n        e.preventDefault();\r\n        const value = searchInput.value.trim().toLowerCase();\r\n        (0,_utils__WEBPACK_IMPORTED_MODULE_0__.setCourses)(window.courses.filter(c => c.name.toLowerCase().indexOf(value) > -1), {page: 1});\r\n    });\r\n\r\n    searchInput.addEventListener('change', function (e) {\r\n        e.preventDefault();\r\n        if (!this.value) (0,_utils__WEBPACK_IMPORTED_MODULE_0__.setCourses)(window.courses, {page: 1});\r\n    });\r\n\r\n    try {\r\n        const request = await fetch('/api/courses');\r\n        const {response} = await request.json();\r\n        window.courses = response;\r\n        (0,_utils__WEBPACK_IMPORTED_MODULE_0__.setCourses)(response, {page: 1});\r\n        document.getElementById('paginator').replaceWith((0,_components_paginator_component__WEBPACK_IMPORTED_MODULE_1__.Paginator)(response));\r\n    } catch (e) {\r\n        //TODO put error picture\r\n        console.error(e);\r\n    }\r\n\r\n};\r\n\n\n//# sourceURL=webpack://site/./shared/client/main-section.js?");
+
+/***/ }),
+
+/***/ "./shared/client/utils.js":
+/*!********************************!*\
+  !*** ./shared/client/utils.js ***!
+  \********************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+eval("__webpack_require__.r(__webpack_exports__);\n/* harmony export */ __webpack_require__.d(__webpack_exports__, {\n/* harmony export */   \"sortNodesByName\": () => (/* binding */ sortNodesByName),\n/* harmony export */   \"childrenSorted\": () => (/* binding */ childrenSorted),\n/* harmony export */   \"paginate\": () => (/* binding */ paginate),\n/* harmony export */   \"range\": () => (/* binding */ range),\n/* harmony export */   \"On\": () => (/* binding */ On),\n/* harmony export */   \"setCourses\": () => (/* binding */ setCourses),\n/* harmony export */   \"useQuery\": () => (/* binding */ useQuery)\n/* harmony export */ });\n/* harmony import */ var _components_course_card_component__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./components/course-card.component */ \"./shared/client/components/course-card.component.js\");\n/* harmony import */ var _model_node__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../../model/node */ \"./model/node.js\");\n/* harmony import */ var _model_node__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(_model_node__WEBPACK_IMPORTED_MODULE_1__);\n\r\n\r\n\r\nfunction sortNodesByName(a, b) {\r\n    const\r\n        A = a.name.split('.')[0].padStart(4, '0'),\r\n        B = b.name.split('.')[0].padStart(4, '0');\r\n    return A > B ? 1 : -1;\r\n}\r\n\r\nconst childrenSorted = (nodes) => {\r\n    return nodes\r\n        .filter(n => n.name !== 'data.json')\r\n        .sort(sortNodesByName)\r\n        .map(n => {\r\n            if (Array.isArray(n.children)) n.children = childrenSorted(n.children);\r\n            return n;\r\n        })\r\n};\r\n\r\nfunction paginate(data, {page, length = 8}) {\r\n    const start = (page - 1) * length;\r\n    return data.slice().slice(start, start + length);\r\n}\r\n\r\nfunction range(start, end) {\r\n    const result = [];\r\n    for (let i = start; i <= end; i++) result.push(i);\r\n    return result;\r\n}\r\n\r\nfunction On(element = document, eventName, selector, handler) {\r\n\r\n    (function (E, d, w) {\r\n        if (!E.composedPath) {\r\n            E.composedPath = function () {\r\n                if (this.path) {\r\n                    return this.path;\r\n                }\r\n                var target = this.target;\r\n\r\n                this.path = [];\r\n                while (target.parentNode !== null) {\r\n                    this.path.push(target);\r\n                    target = target.parentNode;\r\n                }\r\n                this.path.push(d, w);\r\n                return this.path;\r\n            };\r\n        }\r\n    })(Event.prototype, document, window);\r\n\r\n    element.addEventListener(\r\n        eventName,\r\n        function (event) {\r\n            let elements = document.querySelectorAll(selector);\r\n            let path = event.composedPath();\r\n            for (let j = 0, l = path.length; j < l; j++) {\r\n                for (let i = 0, len = elements.length; i < len; i++) {\r\n                    if (path[j] === elements[i]) {\r\n                        handler.call(elements[i], event);\r\n                    }\r\n                }\r\n            }\r\n        },\r\n        true\r\n    );\r\n}\r\n\r\nconst setCourses = (function () {\r\n    let cards = document.getElementById('cards');\r\n    let subscribers = [];\r\n\r\n    function subject(courses, {page, length = 8}) {\r\n        const paginated = paginate(courses, {page, length});\r\n        const row = document.createElement('div');\r\n        row.classList.add('row');\r\n        for (let child of paginated) {\r\n            row.appendChild((0,_components_course_card_component__WEBPACK_IMPORTED_MODULE_0__.CourseCard)(new (_model_node__WEBPACK_IMPORTED_MODULE_1___default())(child)));\r\n        }\r\n        if (paginated && !paginated.length) {\r\n            row.innerHTML = `<img class=\"empty\" src=\"/img/undraw_empty_xct9.svg\" alt=\"empty\" width=\"16rem\"/>`;\r\n        }\r\n        cards.replaceWith(row);\r\n        cards = row;\r\n        notify(courses, {page, length});\r\n    }\r\n\r\n    subject.subscribe = subscriber => {\r\n        subscribers.push(subscriber);\r\n    };\r\n\r\n    function notify(courses, {page, length}) {\r\n        for (let subscriber of subscribers) {\r\n            subscriber.call(this, courses, {page, length});\r\n        }\r\n    }\r\n\r\n    return subject;\r\n\r\n})();\r\n\r\nfunction useQuery() {\r\n    return new URLSearchParams(location.search);\r\n}\r\n\n\n//# sourceURL=webpack://site/./shared/client/utils.js?");
+
+/***/ })
+
+/******/ 	});
+/************************************************************************/
+/******/ 	// The module cache
+/******/ 	var __webpack_module_cache__ = {};
+/******/ 	
+/******/ 	// The require function
+/******/ 	function __webpack_require__(moduleId) {
+/******/ 		// Check if module is in cache
+/******/ 		if(__webpack_module_cache__[moduleId]) {
+/******/ 			return __webpack_module_cache__[moduleId].exports;
+/******/ 		}
+/******/ 		// Create a new module (and put it into the cache)
+/******/ 		var module = __webpack_module_cache__[moduleId] = {
+/******/ 			// no module.id needed
+/******/ 			// no module.loaded needed
+/******/ 			exports: {}
+/******/ 		};
+/******/ 	
+/******/ 		// Execute the module function
+/******/ 		__webpack_modules__[moduleId](module, module.exports, __webpack_require__);
+/******/ 	
+/******/ 		// Return the exports of the module
+/******/ 		return module.exports;
+/******/ 	}
+/******/ 	
+/************************************************************************/
+/******/ 	/* webpack/runtime/compat get default export */
+/******/ 	(() => {
+/******/ 		// getDefaultExport function for compatibility with non-harmony modules
+/******/ 		__webpack_require__.n = (module) => {
+/******/ 			var getter = module && module.__esModule ?
+/******/ 				() => (module['default']) :
+/******/ 				() => (module);
+/******/ 			__webpack_require__.d(getter, { a: getter });
+/******/ 			return getter;
+/******/ 		};
+/******/ 	})();
+/******/ 	
+/******/ 	/* webpack/runtime/define property getters */
+/******/ 	(() => {
+/******/ 		// define getter functions for harmony exports
+/******/ 		__webpack_require__.d = (exports, definition) => {
+/******/ 			for(var key in definition) {
+/******/ 				if(__webpack_require__.o(definition, key) && !__webpack_require__.o(exports, key)) {
+/******/ 					Object.defineProperty(exports, key, { enumerable: true, get: definition[key] });
+/******/ 				}
+/******/ 			}
+/******/ 		};
+/******/ 	})();
+/******/ 	
+/******/ 	/* webpack/runtime/hasOwnProperty shorthand */
+/******/ 	(() => {
+/******/ 		__webpack_require__.o = (obj, prop) => (Object.prototype.hasOwnProperty.call(obj, prop))
+/******/ 	})();
+/******/ 	
+/******/ 	/* webpack/runtime/make namespace object */
+/******/ 	(() => {
+/******/ 		// define __esModule on exports
+/******/ 		__webpack_require__.r = (exports) => {
+/******/ 			if(typeof Symbol !== 'undefined' && Symbol.toStringTag) {
+/******/ 				Object.defineProperty(exports, Symbol.toStringTag, { value: 'Module' });
+/******/ 			}
+/******/ 			Object.defineProperty(exports, '__esModule', { value: true });
+/******/ 		};
+/******/ 	})();
+/******/ 	
+/************************************************************************/
+/******/ 	
+/******/ 	// startup
+/******/ 	// Load entry module and return exports
+/******/ 	// This entry module can't be inlined because the eval devtool is used.
+/******/ 	var __webpack_exports__ = __webpack_require__("./shared/client/main-section.js");
+/******/ 	
+/******/ })()
+;

@@ -143,7 +143,7 @@ function sanitizeName(name) {
     return name ? name.split('.').slice(1, -1).join('.') : '';
 }
 
-function parseLessons(lessons) {
+function parseLessons(lessons, getLessonCounter) {
     return lessons
         .filter(n => n.name !== 'data.json')
         .sort(sortNodesByName)
@@ -151,12 +151,16 @@ function parseLessons(lessons) {
             const {name, nodeId, type, accountId, courseId, sectionId, lessonId, link} = lesson;
             return new Node({
                 name: sanitizeName(name),
-                nodeId, type, accountId, courseId, sectionId, lessonId, link
+                nodeId, type, accountId, courseId, sectionId, lessonId, link, idx: getLessonCounter()
             })
         })
 }
 
 function parseSections(sections) {
+    const getLessonCounter = (() => {
+        let lessonCounter = 0;
+        return () => ++lessonCounter;
+    })();
     return sections
         .filter(n => n.name !== 'data.json')
         .sort(sortNodesByName)
@@ -164,7 +168,7 @@ function parseSections(sections) {
             const {name, nodeId, type, accountId, courseId, sectionId, lessonId, lessons} = section;
             return new Node({
                 name, nodeId, type, accountId, courseId, sectionId, lessonId,
-                lessons: Array.isArray(lessons) ? parseLessons(lessons) : null
+                lessons: Array.isArray(lessons) ? parseLessons(lessons, getLessonCounter) : null
             })
         })
 }
