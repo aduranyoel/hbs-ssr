@@ -1,12 +1,6 @@
 export function CourseCard({name, nodeId, picture, description, url}) {
-
-    const openCourse = async() => {
-        if (!nodeId) return null;
-        window.location.href = `/course/${url}`;
-    };
-
     const template = `
-    <div class="my-card">
+    <a class="my-card" href="/course/${url}">
     <div class="my-card-header">
     ${
         picture
@@ -15,14 +9,13 @@ export function CourseCard({name, nodeId, picture, description, url}) {
     }
     </div>
     <div class="my-card-body">
-        <div class="title">${name}</div>
-    <div class="subtitle">${description}</div>
+        <h2 class="title">${name}</h2>
+    <div class="subtitle"><p>${description}</p></div>
     </div>
-    </div>
+    </a>
 `;
     const element = document.createElement('div');
     element.setAttribute('class', 'col-xl-3 col-lg-4 col-md-6 d-flex align-items-stretch');
-    element.onclick = openCourse;
     element.innerHTML = template;
     return element;
 }

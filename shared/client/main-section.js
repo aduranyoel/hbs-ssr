@@ -3,6 +3,7 @@ import {Paginator} from "./components/paginator.component";
 
 const searchForm = document.getElementById('searchForm');
 const searchInput = document.getElementById('search');
+export const DEFAULT_PAGE_LENGTH = 16;
 
 window.onload = async () => {
 
@@ -21,7 +22,7 @@ window.onload = async () => {
         const request = await fetch('/api/courses');
         const {response} = await request.json();
         window.courses = response;
-        setCourses(response, {page: 1});
+        // setCourses(response, {page: 1});
         document.getElementById('paginator').replaceWith(Paginator(response));
     } catch (e) {
         //TODO put error picture

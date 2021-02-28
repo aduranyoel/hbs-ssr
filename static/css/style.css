@@ -560,7 +560,7 @@ section {
   padding-bottom: 30px;
 }
 
-.section-title h2 {
+.section-title h3 {
   font-size: 28px;
   font-weight: 600;
   margin-bottom: 20px;
@@ -569,7 +569,7 @@ section {
   font-family: "Poppins", sans-serif;
 }
 
-.section-title h2::after {
+.section-title h3::after {
   content: '';
   position: absolute;
   display: block;

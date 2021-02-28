@@ -1,13 +1,13 @@
 import {On, range, setCourses} from "../utils";
+import {DEFAULT_PAGE_LENGTH} from "../main-section";
 
 export function Paginator(data) {
     const element = document.createElement('div');
     element.classList.add('blog');
 
-    const PAGE_LENGTH = 8;
     let {courses, pages, active} = getState(data);
 
-    function getState(courses, {page = 1, length = PAGE_LENGTH} = {}) {
+    function getState(courses, {page = 1, length = DEFAULT_PAGE_LENGTH} = {}) {
         return {
             active: page,
             courses,

@@ -1,4 +1,4 @@
-<div class="my-card {{#if loading}}loading{{/if}}">
+<a class="my-card {{#if loading}}loading{{/if}}" href="/course/{{url}}">
     <div class="my-card-header">
         {{#unless loading}}
             {{#if picture}}
@@ -9,7 +9,7 @@
         {{/unless}}
     </div>
     <div class="my-card-body">
-        <div class="title">{{name}}</div>
-        <div class="subtitle">{{courseInfo.description}}</div>
+        <h2 class="title">{{name}}</h2>
+        <div class="subtitle"><p>{{description}}</p></div>
     </div>
-</div>
+</a>

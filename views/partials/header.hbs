@@ -1,86 +1,18 @@
-<style>
-    .logo {
-        display: flex;
-        align-items: center;
-    }
-
-    .logo hr {
-        margin: 0 12px;
-        height: 40%;
-        border-left: 1px solid #686f7a
-    }
-
-    .logo > span {
-        white-space: nowrap;
-        overflow: hidden;
-        text-overflow: ellipsis;
-        color: #545454;
-        font-size: 14px;
-        font-family: "Poppins", sans-serif;
-    }
-
-    .blog {
-        padding: 0;
-    }
-
-    .blog .sidebar {
-        padding: 0;
-        margin: 0;
-        box-shadow: none;
-    }
-
-    .blog .sidebar .sidebar-item {
-        margin-bottom: 0;
-    }
-
-    .blog .sidebar .sidebar-item input {
-        outline: none;
-    }
-
-    .search-container {
-        width: 60%;
-        display: flex;
-        align-items: center;
-    }
-
-    .search-container .sidebar {
-        width: 100%;
-    }
-
-    .blog .sidebar .search-form form input[type="text"] {
-        font-size: 14px;
-        position: absolute;
-        top: 0;
-        left: 0;
-        bottom: 0;
-        right: 0;
-    }
-
-    .blog .sidebar .search-form form label {
-        width: 100%;
-        position: relative;
-    }
-
-</style>
-
+<link rel="stylesheet" href="/css/header.css">
 <header id="header">
     <div class="container d-flex justify-content-between">
-
         <div class="logo" {{#if subtitle}}style="width: 50%"{{/if}}>
             <h1 class="text-light">
                 <a href="/"><span>{{title}}</span></a>
             </h1>
-
             {{#if subtitle}}
                 <hr/>
                 <span>{{subtitle}}</span>
             {{/if}}
         </div>
-
         {{#unless subtitle}}
             {{> search-courses}}
         {{/unless}}
-
         <nav class="nav-menu d-lg-block">
             <ul>
                 <li class="">
@@ -88,6 +20,5 @@
                 </li>
             </ul>
         </nav>
-
     </div>
 </header>

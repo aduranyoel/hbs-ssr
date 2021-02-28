@@ -3,7 +3,7 @@ const
     router = express.Router(),
     path = require('path');
 const Course = require("../model/course");
-const {findOneCourse, parseCourse} = require("../services/courses.service");
+const {findOneCourse, parseCourse, getAllCourses} = require("../services/courses.service");
 
 router.use((req, res, next) => {
     const acceptLanguage = req.header('accept-language') || '';
@@ -13,22 +13,16 @@ router.use((req, res, next) => {
     next();
 });
 
-router.get('/', (req, res) => {
+router.get('/', async(req, res) => {
+    const attrs = ['name', 'nodeId', 'type', 'accountId', 'courseId', 'url', 'description', 'picture'];
+    const courses = await getAllCourses({page: 1, length: 16}, attrs);
     res.render("home", {
         ...req.extra,
         title: 'Mega Courses',
         siteTitle: "Online courses - anytime, anywhere | Mega Courses",
         siteDescription: "Free courses, be part of a community that learns and shares their knowledge",
         siteImage: 'https://www.megacourses.top/img/thumbnail.png',
-        courses: Array(4).fill({
-            name: 'loading',
-            nodeId: '',
-            type: 1,
-            children: [],
-            accountId: 0,
-            courseInfo: {description: 'loading'},
-            loading: true
-        })
+        courses: courses.map(parseCourse)
     });
 });
 

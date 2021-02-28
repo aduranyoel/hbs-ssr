@@ -1,5 +1,6 @@
 import {CourseCard} from "./components/course-card.component";
 import Node from "../../model/node";
+import {DEFAULT_PAGE_LENGTH} from "./main-section";
 
 export function sortNodesByName(a, b) {
     const
@@ -71,7 +72,7 @@ export const setCourses = (function () {
     let cards = document.getElementById('cards');
     let subscribers = [];
 
-    function subject(courses, {page, length = 8}) {
+    function subject(courses, {page, length = DEFAULT_PAGE_LENGTH}) {
         const paginated = paginate(courses, {page, length});
         const row = document.createElement('div');
         row.classList.add('row');

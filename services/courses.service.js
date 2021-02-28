@@ -24,10 +24,19 @@ function findOneCourse(url) {
     })
 }
 
-function getAllCourses() {
+function getAllCourses(paginator, attrs) {
+    let searchParams = {};
+    if (paginator) {
+        const {page, length} = paginator;
+        searchParams['limit'] = length;
+        searchParams['offset'] = (page - 1) * length;
+    }
+    if (attrs) {
+        searchParams['attributes'] = attrs;
+    }
     return new Promise(async (resolve, reject) => {
         try {
-            const result = await Course.findAll();
+            const result = await Course.findAll(searchParams);
             resolve(result);
         } catch (e) {
             reject(e);
@@ -174,9 +183,9 @@ function parseSections(sections) {
 }
 
 function parseCourse(course) {
-    const {name, nodeId, type, accountId, sections, courseId} = course;
+    const {name, nodeId, type, accountId, sections, courseId, url, description, picture} = course;
     return new Node({
-        name, nodeId, type, accountId, courseId,
+        name, nodeId, type, accountId, courseId, url, description, picture,
         sections: Array.isArray(sections) ? parseSections(sections) : null
     });
 }
