@@ -18,7 +18,6 @@ router.get('/', async(req, res) => {
     const courses = await getAllCourses({page: 1, length: 16}, attrs);
     res.render("home", {
         ...req.extra,
-        title: 'Mega Courses',
         siteTitle: "Online courses - anytime, anywhere | Mega Courses",
         siteDescription: "Free courses, be part of a community that learns and shares their knowledge",
         siteImage: 'https://www.megacourses.top/img/thumbnail.png',
@@ -33,7 +32,6 @@ router.get('/course/:courseUrl', async (req, res) => {
         if (course) {
             res.render("course", {
                 ...req.extra,
-                title: 'MC',
                 subtitle: course.name,
                 siteTitle: `${course.name} | Mega Courses`,
                 siteDescription: course.description,
