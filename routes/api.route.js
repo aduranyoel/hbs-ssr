@@ -96,7 +96,7 @@ router.get('/stream', (req, res) => {
     file.download((err, file) => {
         res.writeHead(200, {
             'Content-Type': 'video/mp4',
-            'Content-Length': file.length
+            // 'Content-Length': file.length
         });
         res.end(file);
     });
