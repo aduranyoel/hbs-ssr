@@ -1,20 +1,9 @@
 <link rel="stylesheet" href="/css/course.css">
 {{> header}}
-
 <section>
     <div class="row">
         <div class="col-lg-8 video-content">
-            <div class="actions loading">
-                <button id="actionPrevious">&lt;</button>
-                <button id="actionNext">&gt;</button>
-            </div>
-            <iframe
-                    allowFullScreen
-                    width="100%"
-                    height="100%"
-                    title="lesson"
-            >
-            </iframe>
+            <video class="player plyr"></video>
             <div class="spinner-container">
                 {{> spiner}}
             </div>
@@ -27,11 +16,9 @@
             <div class="container">
                 <h3>Content</h3>
                 <div class="accordion" id="accordionCourse">
-
                     {{#each course.sections as |c|}}
                         {{> accordion parameter=c}}
                     {{/each}}
-
                 </div>
             </div>
         </div>

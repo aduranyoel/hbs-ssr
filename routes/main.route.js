@@ -65,8 +65,4 @@ router.get('/course/image/:courseUrl', async (req, res) => {
     }
 });
 
-router.get('/video', (req, res) => {
-    res.render('video');
-});
-
 module.exports = router;
