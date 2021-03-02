@@ -2,8 +2,7 @@ const express = require('express');
 const mega = require('megajs');
 const {saveCourses} = require("../services/courses.service");
 const router = express.Router();
-const {find} = require('../shared/mega');
-const {getCoursesFromAccount} = require("../shared/mega");
+const {find, lastGateway, getCoursesFromAccount} = require('../shared/mega');
 const {getAllCourses, findOneCourse, findOneLesson} = require("../services/courses.service");
 
 router.get('/courses', async (req, res) => {
@@ -93,6 +92,7 @@ router.get('/stream', (req, res) => {
     if (!url || !hash) return res.status(400).end();
     if (url.indexOf('embed') > -1) url = url.replace('embed', 'file');
     const file = mega.File.fromURL(`${url}#${hash}`);
+    if (lastGateway) file.api.gateway = lastGateway;
     file.download((err, file) => {
         res.writeHead(200, {
             'Content-Type': 'video/mp4',

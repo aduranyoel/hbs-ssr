@@ -16,6 +16,8 @@ const accounts = [
     }
 ];
 
+let lastGateway = 'https://eu.api.mega.co.nz/';
+
 function getAllCourses() {
     return new Promise(resolve => {
         let cache = {};
@@ -23,6 +25,7 @@ function getAllCourses() {
         accounts.forEach(account => {
             const {accountId, ...login} = account;
             new mega.Storage(login, (err, res) => {
+                lastGateway = res.api.gateway;
                 ++readyAccounts;
                 const courses = res.root.children.find(n => n.name === 'courses');
                 if (courses) {
@@ -59,6 +62,7 @@ function getCoursesFromAccount(id) {
         const {accountId, ...login} = accounts[id - 1];
         new mega.Storage(login, (err, res) => {
             if (err) return reject(err);
+            lastGateway = res.api.gateway;
             const courses = res.root.children.find(n => n.name === 'courses');
             if (courses) {
                 resolve(courses);
@@ -120,5 +124,6 @@ module.exports = {
     getCoursesFromCache,
     getCoursesFromAccount,
     find,
-    getEmbed
+    getEmbed,
+    lastGateway
 };
