@@ -7,7 +7,7 @@ const {getAllCourses, findOneCourse, findOneLesson} = require("../services/cours
 const logger = require('../shared/logger');
 
 function responseError(res, message) {
-    res.status(400).json({
+    return res.status(400).json({
         response: null,
         error: message
     })
@@ -70,21 +70,21 @@ router.get('/embed', async (req, res) => {
                     wanted.link(async (error, link) => {
                         if (error) return responseError(res, error);
                         await lesson.update({link});
-                        res.json({
+                        return res.json({
                             response: link,
                             error: null
                         })
                     })
                 } else {
-                    responseError(res, 'File not found.')
+                    return responseError(res, 'File not found.')
                 }
             });
         } else {
-            responseError(res, 'No lesson found.')
+            return responseError(res, 'No lesson found.')
         }
 
     } catch (e) {
-        responseError(res, e.message);
+        return responseError(res, e.message);
     }
 });
 
@@ -103,17 +103,17 @@ router.get('/stream', async (req, res) => {
                             'Content-Type': 'video/mp4',
                             'Content-Length': response.length
                         });
-                        res.end(response);
+                        return res.end(response);
                     });
                 } else {
-                    responseError(res, 'file not found');
+                    return responseError(res, 'file not found');
                 }
             });
         } else {
-            responseError(res, 'lesson not found');
+            return responseError(res, 'lesson not found');
         }
     } catch (e) {
-        responseError(res, e.message);
+        return responseError(res, e.message);
     }
 })
 ;
