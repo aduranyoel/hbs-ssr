@@ -6,6 +6,13 @@ const {find, lastGateway, getCoursesFromAccount} = require('../shared/mega');
 const {getAllCourses, findOneCourse, findOneLesson} = require("../services/courses.service");
 const logger = require('../shared/logger');
 
+function responseError(res, message) {
+    res.status(400).json({
+        response: null,
+        error: message
+    })
+}
+
 router.get('/courses', async (req, res) => {
     try {
         res.json({
@@ -61,7 +68,7 @@ router.get('/embed', async (req, res) => {
                 const wanted = find(url, courses);
                 if (wanted) {
                     wanted.link(async (error, link) => {
-                        if (error) return responseError(error);
+                        if (error) return responseError(res, error);
                         await lesson.update({link});
                         res.json({
                             response: link,
@@ -69,46 +76,46 @@ router.get('/embed', async (req, res) => {
                         })
                     })
                 } else {
-                    responseError('File not found.')
+                    responseError(res, 'File not found.')
                 }
             });
         } else {
-            responseError('No lesson found.')
+            responseError(res, 'No lesson found.')
         }
 
     } catch (e) {
-        responseError(e.message);
-    }
-
-    function responseError(message) {
-        res.status(400).json({
-            response: null,
-            error: message
-        })
+        responseError(res, e.message);
     }
 });
 
-router.get('/stream', (req, res) => {
+router.get('/stream', async (req, res) => {
     try {
-        let {url, hash} = req.query;
-        if (!url || !hash) return res.status(400).end();
-        if (url.indexOf('embed') > -1) url = url.replace('embed', 'file');
-        const file = mega.File.fromURL(`${url}#${hash}`);
-        if (lastGateway) file.api.gateway = lastGateway;
-        logger('stream with gateway: ', lastGateway);
-        file.download((err, file) => {
-            res.writeHead(200, {
-                'Content-Type': 'video/mp4',
-                // 'Content-Length': file.length
+        const {accountId, courseId, sectionId, lessonId} = req.query;
+        const lesson = await findOneLesson(accountId, courseId, sectionId, lessonId);
+        if (lesson) {
+            const url = `${lesson.course.nodeId}/${lesson.section.nodeId}/${lesson.nodeId}`;
+            getCoursesFromAccount(accountId).then(courses => {
+                const wanted = find(url, courses);
+                if (wanted) {
+                    wanted.download((err, response) => {
+                        logger('video download completed', !!err, !!response);
+                        res.writeHead(200, {
+                            'Content-Type': 'video/mp4',
+                            'Content-Length': response.length
+                        });
+                        res.end(response);
+                    });
+                } else {
+                    responseError(res, 'file not found');
+                }
             });
-            res.end(file);
-        });
+        } else {
+            responseError(res, 'lesson not found');
+        }
     } catch (e) {
-        res.status(400).json({
-            response: null,
-            error: e.message
-        })
+        responseError(res, e.message);
     }
-});
+})
+;
 
 module.exports = router;

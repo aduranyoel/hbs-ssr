@@ -53,7 +53,7 @@ async function getEmbed(accountId, courseId, sectionId, lessonId) {
     }
 }
 
-function setCurrentLesson(url) {
+function setCurrentLesson(accountId, courseId, sectionId, lessonId) {
     const controls = `
 <div class="plyr__controls">
     <button class="plyr__controls__item plyr__control" type="button" data-plyr="play" aria-label="Play">
@@ -138,10 +138,10 @@ function setCurrentLesson(url) {
     });
     player.source = {
         type: 'video',
-        title: 'Asd',
+        title: 'Lesson',
         sources: [
             {
-                src: `/api/stream?url=${url.replace('#', '&hash=')}`,
+                src: `/api/stream?accountId=${accountId}&courseId=${courseId}&sectionId=${sectionId}&lessonId=${lessonId}`,
                 type: 'video/mp4',
             }
         ]
@@ -165,6 +165,7 @@ function setActive() {
         lessonId: this.getAttribute('data-lessonId'),
         link: this.getAttribute('data-link'),
         idx: this.getAttribute('data-idx'),
+        nodeId: this.getAttribute('data-nodeId'),
     };
     const lessonsItems = [].slice.call(document.querySelectorAll('.accordion-body ul li span[data-lessonId]'));
     for (let lessonsItem of lessonsItems) {
@@ -175,17 +176,19 @@ function setActive() {
     switchLoader(true);
     window.scrollTo(0, 0);
     openSectionAccordion(data.sectionId);
-    if (data.link) {
-        setCurrentLesson(data.link);
-    } else {
-        const {accountId, courseId, sectionId, lessonId} = data;
-        getEmbed(accountId, courseId, sectionId, lessonId).then(url => {
-            if (url) {
-                setCurrentLesson(url);
-                this.setAttribute('data-link', url);
-            }
-        })
-    }
+    const {accountId, courseId, sectionId, lessonId} = data;
+    setCurrentLesson(accountId, courseId, sectionId, lessonId);
+    // if (data.link) {
+    //     setCurrentLesson(data.link);
+    // } else {
+    //     const {accountId, courseId, sectionId, lessonId} = data;
+    //     getEmbed(accountId, courseId, sectionId, lessonId).then(url => {
+    //         if (url) {
+    //             setCurrentLesson(url);
+    //             this.setAttribute('data-link', url);
+    //         }
+    //     })
+    // }
 }
 
 function initFirstLesson() {

@@ -118,6 +118,20 @@ function find(path, node) {
     }
 }
 
+function findByNodeId(id, node) {
+    if (!Array.isArray(node.children)) return null;
+    const result = node.children.find(n => n.nodeId === id);
+    if (result) return result;
+    const folders = node.children.filter(n => n.type === 1);
+    if (folders && folders.length) {
+        for (let folder of folders) {
+            const level = findByNodeId(id, folder);
+            if (level) return level;
+        }
+    }
+    return null;
+}
+
 function getEmbed(url) {
     return url.replace('file', 'embed');
 }
@@ -128,5 +142,6 @@ module.exports = {
     find,
     getEmbed,
     lastGateway,
-    accounts
+    accounts,
+    findByNodeId
 };
