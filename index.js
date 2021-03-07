@@ -7,7 +7,8 @@ const
     handlebars = require('./shared/hbs'),
     app = express(),
     sequelize = require('./db/connection'),
-    {initSyncCourses} = require("./services/courses.service");
+    {initSyncCourses} = require("./services/courses.service"),
+    logger = require('./shared/logger');
 
 /**
  * Config
@@ -54,9 +55,9 @@ app.use("/", require('./routes/main.route'));
 (async function () {
     try {
         await sequelize.authenticate();
-        console.log('Connection has been established successfully.');
+        logger('Connection has been established successfully.');
     } catch (error) {
-        console.error('Unable to connect to the database:', error);
+        logger('Unable to connect to the database:', error);
     }
 })();
 
@@ -64,6 +65,6 @@ app.use("/", require('./routes/main.route'));
  * Server
  */
 app.listen(app.get("port"), () => {
-    console.log('server running in port ' + app.get('port'));
+    logger('server running in port ', app.get('port'));
     if (process.env.NODE_ENV === 'production') initSyncCourses();
 });

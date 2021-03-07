@@ -4,6 +4,7 @@ const {saveCourses} = require("../services/courses.service");
 const router = express.Router();
 const {find, lastGateway, getCoursesFromAccount} = require('../shared/mega');
 const {getAllCourses, findOneCourse, findOneLesson} = require("../services/courses.service");
+const logger = require('../shared/logger');
 
 router.get('/courses', async (req, res) => {
     try {
@@ -88,18 +89,26 @@ router.get('/embed', async (req, res) => {
 });
 
 router.get('/stream', (req, res) => {
-    let {url, hash} = req.query;
-    if (!url || !hash) return res.status(400).end();
-    if (url.indexOf('embed') > -1) url = url.replace('embed', 'file');
-    const file = mega.File.fromURL(`${url}#${hash}`);
-    if (lastGateway) file.api.gateway = lastGateway;
-    file.download((err, file) => {
-        res.writeHead(200, {
-            'Content-Type': 'video/mp4',
-            // 'Content-Length': file.length
+    try {
+        let {url, hash} = req.query;
+        if (!url || !hash) return res.status(400).end();
+        if (url.indexOf('embed') > -1) url = url.replace('embed', 'file');
+        const file = mega.File.fromURL(`${url}#${hash}`);
+        if (lastGateway) file.api.gateway = lastGateway;
+        logger('stream with gateway: ', lastGateway);
+        file.download((err, file) => {
+            res.writeHead(200, {
+                'Content-Type': 'video/mp4',
+                // 'Content-Length': file.length
+            });
+            res.end(file);
         });
-        res.end(file);
-    });
+    } catch (e) {
+        res.status(400).json({
+            response: null,
+            error: e.message
+        })
+    }
 });
 
 module.exports = router;

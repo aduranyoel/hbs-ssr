@@ -1,5 +1,6 @@
 const mega = require('megajs');
 const Node = require('../model/node');
+const logger = require('./logger');
 
 const accounts = [
     {
@@ -26,6 +27,7 @@ function getAllCourses() {
             const {accountId, ...login} = account;
             new mega.Storage(login, (err, res) => {
                 lastGateway = res.api.gateway;
+                logger('courses loaded, gateway: ', lastGateway);
                 ++readyAccounts;
                 const courses = res.root.children.find(n => n.name === 'courses');
                 if (courses) {
@@ -125,5 +127,6 @@ module.exports = {
     getCoursesFromAccount,
     find,
     getEmbed,
-    lastGateway
+    lastGateway,
+    accounts
 };
